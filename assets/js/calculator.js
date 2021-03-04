@@ -7,12 +7,12 @@ const btnSwitch = document.querySelector('#switch');
 
 let total = document.getElementById("total");
 let tip = document.getElementById("tip")
- 
+
+var inputfocused = "";
 
 /* Functions */
 function calculate(e) {
     let TotalPerPerson = document.getElementById("TotalPerPerson");
-    let TipPerPerson = document.getElementById("TipPerPerson");
 
     if(isHigherToTwo()){
         let  TextTotalPerPerson = "Total Per Person: ";
@@ -46,8 +46,6 @@ function calculate(e) {
 
     total.textContent = "$"+CalculateTotalResult();
     tip.textContent = "$"+CalculateTip();
-
-  
 }
 
 
@@ -56,7 +54,7 @@ btnSwitch.addEventListener('click', () => {
 	document.body.classList.toggle('dark');
 	btnSwitch.classList.toggle('active');
 
-    // save the mode in localstorage.
+    //Save in localstorage.
 	if(document.body.classList.contains('dark')){
 		localStorage.setItem('dark-mode', 'true');
 	} else {
@@ -64,8 +62,7 @@ btnSwitch.addEventListener('click', () => {
 	}
 });
 
-
-// Get the currnent mode.
+//Get the current mood
 if(localStorage.getItem('dark-mode') === 'true'){
 	document.body.classList.add('dark');
 	btnSwitch.classList.add('active');
@@ -86,6 +83,7 @@ document.addEventListener('keydown', e => {
     }
 
 });
+
 
 //Calculate Values
 function CalculateTotalResult(){
@@ -122,7 +120,7 @@ function CreateParagrahp(idContainer,content,idElement){
     let Paragrahp = document.createElement("p");
     Paragrahp.textContent= content;
     Paragrahp.setAttribute("id",idElement);
-    Paragrahp.setAttribute("class","results-txt");
+    Paragrahp.setAttribute("class","results");
     fragment.appendChild(Paragrahp);
     Container.appendChild(Paragrahp);
 }
