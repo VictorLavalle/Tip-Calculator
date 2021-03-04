@@ -1,44 +1,83 @@
 /* Variables */
-billed = document.querySelector("#billedAmount");
-tipPerc = document.querySelector("#tipPercentage");
-people = document.querySelector("#numberPeople");
+let billed = document.querySelector("#billedAmount");
+let tipPerc = document.querySelector("#tipPercentage");
+let people = document.querySelector("#numberPeople");
 
 const btnSwitch = document.querySelector('#switch');
 
+let total = document.getElementById("total");
+let tip = document.getElementById("tip")
+ 
 
 /* Functions */
 function calculate(e) {
-    let result;
-    let tipResult;
+    let TotalPerPerson = document.getElementById("TotalPerPerson");
+    let TipPerPerson = document.getElementById("TipPerPerson");
+
+    if(isHigherToTwo()){
+        let  TextTotalPerPerson = "Total Per Person: ";
+        let NumberTotalPer = "$"+(CalculatePerPerson(CalculateTotalResult(),people.value)).toFixed(2);
+
+        let TextTipPerPerson ="Tip Per Person: ";
+        let NumberTipPer = "$"+(CalculatePerPerson(CalculateTip(),people.value)).toFixed(2);
     
-    total.classList.add("animate");
-    tip.classList.add("animate");
+        if(!TotalPerPerson){
+            CreateParagrahp("ContainerTotal",TextTotalPerPerson,"TotalPerPerson");
+            CreateParagrahp("ContainerTotal",NumberTotalPer,"NumberTotalPerPerson");
 
-    result = Number(billed.value) + Number(billed.value) * Number(tipPerc.value);
-    result = Number(result).toFixed(2);
-    total.innerHTML = `$${result}`;
+            CreateParagrahp("ContainerTip",TextTipPerPerson,"TipPerPerson");  
+            CreateParagrahp("ContainerTip",NumberTipPer,"NumberTipPerPerson"); 
+        }
+        if(TotalPerPerson){
+            NumberTotalPerPerson.textContent = NumberTotalPer;
+            NumberTipPerPerson.textContent = NumberTipPer; 
+            
+        }
 
-    tipResult = Number(billed.value) * Number(tipPerc.value);
-    tipResult = Number(tipResult).toFixed(2);
-    tip.innerHTML = `$${tipResult}`;
+    }else{
+        if(TotalPerPerson){
+            DeleteParagrahp("TotalPerPerson");
+            DeleteParagrahp("NumberTotalPerPerson");
+            DeleteParagrahp("TipPerPerson");
+            DeleteParagrahp("NumberTipPerPerson");
+        
+        }
+    }
 
-    setTimeout(e => {
-        total.classList.remove("animate");
-        tip.classList.remove("animate");
-    }, 1100);
+    total.textContent = "$"+CalculateTotalResult();
+    tip.textContent = "$"+CalculateTip();
+
   
 }
 
 
+//Toggle button for dark mode
 btnSwitch.addEventListener('click', () => {
 	document.body.classList.toggle('dark');
 	btnSwitch.classList.toggle('active');
+
+    // save the mode in localstorage.
+	if(document.body.classList.contains('dark')){
+		localStorage.setItem('dark-mode', 'true');
+	} else {
+		localStorage.setItem('dark-mode', 'false');
+	}
 });
 
 
-/* index */
+// Get the currnent mode.
+if(localStorage.getItem('dark-mode') === 'true'){
+	document.body.classList.add('dark');
+	btnSwitch.classList.add('active');
+} else {
+	document.body.classList.remove('dark');
+	btnSwitch.classList.remove('active');
+}
+
+
+//Button calculate
 calculateBtn.addEventListener("click", e => {
-    calculate(e);
+        calculate(e);
 });
 
 document.addEventListener('keydown', e => {
@@ -47,3 +86,50 @@ document.addEventListener('keydown', e => {
     }
 
 });
+
+//Calculate Values
+function CalculateTotalResult(){
+    let result;
+    result = Number(billed.value) + Number (CalculateTip());
+    result = Number(result).toFixed(2);
+    return result;
+}
+
+function CalculateTip(){
+    let tipResult = Number(billed.value) * Number(tipPerc.value/100);
+    tipResult = Number(tipResult).toFixed(2);
+    return tipResult;
+}
+
+function CalculatePerPerson(ValueToCalculate, NumberPerson){
+    let Result;
+    Result =  Number(ValueToCalculate)/Number(NumberPerson);
+    Result = Number(Result.toFixed(2));
+    return Result;
+}
+
+
+function isHigherToTwo(){
+    return Number(people.value)>1;
+}
+
+
+//Create Elements
+
+function CreateParagrahp(idContainer,content,idElement){
+    let Container = document.getElementById(idContainer);
+    const fragment = document.createDocumentFragment();
+    let Paragrahp = document.createElement("p");
+    Paragrahp.textContent= content;
+    Paragrahp.setAttribute("id",idElement);
+    Paragrahp.setAttribute("class","results-txt");
+    fragment.appendChild(Paragrahp);
+    Container.appendChild(Paragrahp);
+}
+
+function DeleteParagrahp(idElement){
+    let Paragrahp = document.getElementById(idElement);
+    Paragrahp.parentNode.removeChild(Paragrahp);
+}
+
+

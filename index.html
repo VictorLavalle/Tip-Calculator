@@ -14,50 +14,45 @@
 
 
     <ul class="title">
-        <li> <h2 class="title"> TIP CALCULATOR</h2> </li>
-        
+        <li>
+            <h2 class="title"> TIP CALCULATOR</h2>
+        </li>
+
         <li class="mode">
             <button class="switch" id="switch">
                 <span><i class="fas fa-sun"></i></span>
                 <span><i class="fas fa-moon"></i></span>
             </button>
         </li>
-   
+
     </ul>
 
 
     <div class="check">
         <div class="tip-form">
-            <input type="number" class="form-input" placeholder="Billed Amount" id="billedAmount">
-            <input type="number" class="form-input" placeholder="Tip %" id="tipPercentage">
-            <input type="number" class="form-input" placeholder="Number of People" id="numberPeople" value="1">
-            <button class="form-btn" id="calculateBtn">Calculate</button>
+            <form>
+                <input type="number" class="form-input" placeholder="Billed Amount" id="billedAmount" min="0" required>
+                <input type="number" class="form-input" placeholder="Tip %" id="tipPercentage" min="0'" required>
+                <input type="number" class="form-input" placeholder="Number of People" id="numberPeople" value="1">
+                <button class="form-btn" id="calculateBtn">Calculate</button>
+                <button type="reset" class="clear-form-btn">Clear</button>
+            </form>
         </div>
 
         <ul class="list-results">
-            <li class="results-txt">Total: <p class="results" id="total">$0.00</p> <br>
-                <ul class="list-results-per">
-                    <li class="results-txt-per">Total Per Person:
-                        <p class="results" id="totalPerson">$0.00</p>
-                    </li>
-                </ul>
+            <li class="results-txt" id="ContainerTotal">Total: <p class="results" id="total">$0.00</p> <br>
+
             </li>
 
             <br>
 
-            <li class="results-txt">Tip: <p class="results" id="tip">$0.00</p> <br>
-                <ul class="list-results-per">
-                    <li class="results-txt-per">Tip Per Person:
-                        <p class="results" id="tipPerson">$0.00</p>
-                    </li>
-                </ul>
-
+            <li class="results-txt" id="ContainerTip">Tip: <p class="results" id="tip">$0.00</p> <br>
             </li>
         </ul>
 
 
     </div>
-    <small>The tip percentage must be in a numeric style, such as <b>10% = .10</b> </small>
+    <small>There is no need to decimal the tip percentage , such as: <b>0.10</b> </small>
 
 
     <footer>
