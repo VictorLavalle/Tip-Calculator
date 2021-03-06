@@ -8,18 +8,28 @@ const btnSwitch = document.querySelector('#switch');
 let total = document.getElementById("total");
 let tip = document.getElementById("tip")
 
-var inputfocused = "";
-
 /* Functions */
 function calculate(e) {
     let TotalPerPerson = document.getElementById("TotalPerPerson");
 
+    if(isNegative(billed.value)){
+        billed.value = billed.value * -1;
+    }
+
+    if(isNegative(tipPerc.value)){
+        tipPerc.value = tipPerc.value * -1;
+    }
+
+    if(isNegative(people.value)){
+        people.value = people.value * -1;
+    }
+
     if(isHigherToTwo()){
         let  TextTotalPerPerson = "Total Per Person: ";
-        let NumberTotalPer = "$"+(CalculatePerPerson(CalculateTotalResult(),people.value)).toFixed(2);
+        let NumberTotalPer = "$"+(CalculatePerPerson(CalculateTotalResult(),Math.round(people.value))).toFixed(2);
 
         let TextTipPerPerson ="Tip Per Person: ";
-        let NumberTipPer = "$"+(CalculatePerPerson(CalculateTip(),people.value)).toFixed(2);
+        let NumberTipPer = "$"+(CalculatePerPerson(CalculateTip(),Math.round(people.value))).toFixed(2);
     
         if(!TotalPerPerson){
             CreateParagrahp("ContainerTotal",TextTotalPerPerson,"TotalPerPerson");
@@ -31,7 +41,7 @@ function calculate(e) {
         if(TotalPerPerson){
             NumberTotalPerPerson.textContent = NumberTotalPer;
             NumberTipPerPerson.textContent = NumberTipPer; 
-            
+            people.value = Math.round(people.value);
         }
 
     }else{
@@ -44,8 +54,10 @@ function calculate(e) {
         }
     }
 
+    people.value = Math.round(people.value);
     total.textContent = "$"+CalculateTotalResult();
     tip.textContent = "$"+CalculateTip();
+   
 }
 
 
@@ -111,6 +123,11 @@ function isHigherToTwo(){
     return Number(people.value)>1;
 }
 
+function isNegative(ValueToCalculate){
+    if (ValueToCalculate < 0){
+         return Number(ValueToCalculate)<0
+    }
+}
 
 //Create Elements
 
